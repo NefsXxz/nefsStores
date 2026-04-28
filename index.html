@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nefs Digital Store - Top Up Game & Digital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ========== GAYA CSS (sama seperti sebelumnya) ========== */
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --accent: #f72585;
+            --dark: #1a1a2e;
+            --dark-light: #2d3047;
+            --light: #f8f9fa;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #e63946;
+            --gray: #6c757d;
+            --gray-light: #adb5bd;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.15);
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-accent: linear-gradient(135deg, var(--accent), var(--warning));
+        }
+        * {
+            margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif;
+        }
+        body { background-color: #f5f7ff; color: var(--dark); line-height: 1.6; overflow-x: hidden; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header { background-color: white; box-shadow: var(--shadow); position: sticky; top: 0; z-index: 1000; padding: 15px 0; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: auto; height: 50px; background: transparent; border-radius: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .logo-icon img { height: 100%; width: auto; object-fit: contain; }
+        .logo-text { font-size: 1.8rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .logo-subtext { font-size: 0.7rem; color: var(--gray); margin-top: -5px; }
+        nav ul { display: flex; list-style: none; gap: 30px; }
+        nav ul li a { text-decoration: none; color: var(--dark); font-weight: 500; transition: color 0.3s; position: relative; padding: 5px 0; }
+        nav ul li a:hover { color: var(--primary); }
+        nav ul li a.active { color: var(--primary); font-weight: 600; }
+        nav ul li a.active:after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--gradient); border-radius: 3px; }
+        .header-actions { display: flex; align-items: center; gap: 15px; }
+        .contact-btn { background: var(--gradient); color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: transform 0.3s, box-shadow 0.3s; }
+        .contact-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3); }
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; color: var(--dark); cursor: pointer; }
+        .hero { padding: 80px 0; background: linear-gradient(135deg, rgba(67, 97, 238, 0.05), rgba(114, 9, 183, 0.05)); position: relative; overflow: hidden; }
+        .hero:before { content: ''; position: absolute; top: 0; right: 0; width: 500px; height: 500px; background: radial-gradient(circle, rgba(67, 97, 238, 0.1) 0%, rgba(67, 97, 238, 0) 70%); border-radius: 50%; z-index: 0; }
+        .hero-container { display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 1; }
+        .hero-content { flex: 1; max-width: 600px; }
+        .hero-title { font-size: 3.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px; background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--gray); margin-bottom: 30px; max-width: 500px; }
+        .hero-stats { display: flex; gap: 40px; margin-top: 40px; }
+        .stat-item { text-align: center; }
+        .stat-number { font-size: 2.2rem; font-weight: 700; color: var(--primary); line-height: 1; }
+        .stat-label { font-size: 0.9rem; color: var(--gray); }
+        .hero-image { flex: 1; display: flex; justify-content: flex-end; }
+        .hero-image img { max-width: 100%; border-radius: 20px; box-shadow: var(--shadow); }
+        .search-section { background: white; padding: 30px; border-radius: 20px; box-shadow: var(--shadow); margin-top: -50px; position: relative; z-index: 10; }
+        .search-container { display: flex; align-items: center; gap: 15px; }
+        .search-box { flex: 1; position: relative; }
+        .search-box input { width: 100%; padding: 18px 20px 18px 50px; border: 2px solid #e9ecef; border-radius: 12px; font-size: 1rem; transition: border-color 0.3s; }
+        .search-box input:focus { outline: none; border-color: var(--primary); }
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--gray-light); }
+        .search-btn { background: var(--gradient); color: white; border: none; padding: 18px 30px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: transform 0.3s; }
+        .search-btn:hover { transform: translateY(-3px); }
+        .categories { padding: 40px 0 40px; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 15px; color: var(--dark); }
+        .section-subtitle { font-size: 1.1rem; color: var(--gray); max-width: 600px; margin: 0 auto; }
+        .category-group { margin-bottom: 50px; }
+        .group-title { font-size: 1.8rem; font-weight: 600; margin-bottom: 25px; padding-bottom: 10px; border-bottom: 3px solid var(--primary); display: inline-block; color: var(--dark); }
+        .category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px; }
+        .category-card { background: white; border-radius: 15px; padding: 30px 20px; text-align: center; box-shadow: var(--shadow); transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent; }
+        .category-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-hover); border-color: var(--primary); }
+        .category-card.active { border-color: var(--primary); background: linear-gradient(135deg, rgba(67, 97, 238, 0.05), rgba(114, 9, 183, 0.05)); }
+        .category-icon { width: 70px; height: 70px; margin: 0 auto 20px; background: #fff; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--primary); overflow: hidden; }
+        .category-icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 10px; background: white; }
+        .category-name { font-size: 1.2rem; font-weight: 600; margin-bottom: 5px; }
+        .category-count { font-size: 0.9rem; color: var(--gray); }
+        .products { padding: 60px 0 80px; }
+        .products-section { display: none; }
+        .products-section.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .product-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 20px; }
+        .product-title { font-size: 2rem; font-weight: 700; color: var(--dark); display: flex; align-items: center; gap: 15px; }
+        .product-title img { width: 36px; height: 36px; object-fit: contain; }
+        .product-explanation-btn { background: var(--gradient-accent); color: white; border: none; padding: 12px 25px; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: transform 0.3s; }
+        .product-explanation-btn:hover { transform: translateY(-3px); }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        .product-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: var(--shadow); transition: all 0.3s ease; position: relative; }
+        .product-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
+        .product-card.featured { border: 2px solid var(--primary); }
+        .featured-badge { position: absolute; top: 15px; right: 15px; background: var(--gradient); color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; z-index: 2; }
+        .product-header-card { background: var(--gradient); color: white; padding: 25px; text-align: center; position: relative; overflow: hidden; }
+        .product-header-card:before { content: ''; position: absolute; top: -50%; right: -50%; width: 100%; height: 200%; background: rgba(255, 255, 255, 0.1); transform: rotate(30deg); }
+        .product-header-card h3 { font-size: 1.5rem; font-weight: 600; position: relative; z-index: 1; }
+        .product-body { padding: 25px; }
+        .product-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #f1f3f5; }
+        .product-item:last-child { border-bottom: none; }
+        .product-details { flex: 1; }
+        .product-name { font-weight: 600; margin-bottom: 5px; font-size: 1.1rem; }
+        .product-desc { font-size: 0.85rem; color: var(--gray); line-height: 1.5; }
+        .product-price { font-weight: 700; color: var(--primary); font-size: 1.3rem; white-space: nowrap; margin-left: 15px; display: flex; align-items: center; gap: 8px; }
+        .original-price { text-decoration: line-through; color: #999; font-size: 1rem; font-weight: 400; }
+        .buy-btn { background: var(--gradient); color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: 600; font-size: 1rem; cursor: pointer; margin-top: 15px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .buy-btn:hover:not(:disabled) { opacity: 0.95; transform: translateY(-3px); }
+        .buy-btn.disabled, .buy-btn:disabled { opacity: 0.5; cursor: not-allowed; background: var(--gray); }
+        .payment-methods { padding: 60px 0 40px; background: linear-gradient(135deg, rgba(67, 97, 238, 0.03), rgba(114, 9, 183, 0.03)); }
+        .payment-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        .payment-card { background: white; border-radius: 15px; padding: 25px; text-align: center; box-shadow: var(--shadow); transition: all 0.3s; border: 2px solid transparent; }
+        .payment-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); border-color: var(--primary); }
+        .payment-icon { font-size: 2.5rem; margin-bottom: 15px; display: block; }
+        .payment-icon.qris { color: #00a86b; }
+        .payment-name { font-weight: 600; font-size: 1.1rem; margin-bottom: 5px; }
+        .payment-desc { font-size: 0.9rem; color: var(--gray); }
+        .midman-section { padding: 40px 0 60px; background: linear-gradient(135deg, rgba(67, 97, 238, 0.02), rgba(114, 9, 183, 0.02)); }
+        .midman-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); transition: all 0.3s ease; border: 2px solid #17a2b8; max-width: 550px; margin: 0 auto; }
+        .midman-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
+        .midman-header { background: linear-gradient(135deg, #17a2b8, #0f6674); color: white; padding: 30px; text-align: center; position: relative; overflow: hidden; }
+        .midman-header:before { content: ''; position: absolute; top: -50%; right: -50%; width: 100%; height: 200%; background: rgba(255, 255, 255, 0.1); transform: rotate(30deg); }
+        .midman-header h3 { font-size: 1.8rem; font-weight: 700; position: relative; z-index: 1; }
+        .midman-body { padding: 30px; text-align: center; }
+        .midman-description { color: var(--gray); margin-bottom: 25px; font-size: 1rem; }
+        .midman-action-btn { background: #17a2b8; color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .midman-action-btn:hover { background: #138496; transform: translateY(-3px); }
+        .how-to-order { padding: 80px 0; }
+        .steps { display: flex; justify-content: space-between; margin-top: 50px; position: relative; }
+        .steps:before { content: ''; position: absolute; top: 40px; left: 10%; width: 80%; height: 3px; background: var(--gradient); z-index: 1; }
+        .step { flex: 1; text-align: center; position: relative; z-index: 2; }
+        .step-number { width: 80px; height: 80px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 700; color: var(--primary); margin: 0 auto 20px; border: 5px solid #f5f7ff; box-shadow: var(--shadow); }
+        .step-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 10px; }
+        .step-desc { color: var(--gray); max-width: 250px; margin: 0 auto; }
+        .faq { padding: 80px 0; background: linear-gradient(135deg, rgba(67, 97, 238, 0.03), rgba(114, 9, 183, 0.03)); }
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item { background: white; border-radius: 15px; margin-bottom: 20px; overflow: hidden; box-shadow: var(--shadow); }
+        .faq-question { padding: 25px; font-weight: 600; font-size: 1.1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-answer { padding: 0 25px; max-height: 0; overflow: hidden; transition: max-height 0.3s, padding 0.3s; }
+        .faq-answer.active { padding: 0 25px 25px; max-height: 500px; }
+        .faq-toggle { color: var(--primary); font-size: 1.5rem; transition: transform 0.3s; }
+        .faq-toggle.active { transform: rotate(45deg); }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 2000; align-items: center; justify-content: center; padding: 20px; animation: fadeIn 0.3s ease; }
+        .modal-content { background: white; border-radius: 20px; width: 100%; max-width: 600px; overflow: hidden; animation: slideUp 0.4s ease; max-height: 90vh; overflow-y: auto; }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-header { background: var(--gradient); color: white; padding: 25px; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 1.5rem; font-weight: 600; }
+        .close-modal { background: rgba(255, 255, 255, 0.2); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.5rem; transition: background 0.3s; }
+        .close-modal:hover { background: rgba(255, 255, 255, 0.3); }
+        .modal-body { padding: 30px; line-height: 1.7; }
+        .info-content { white-space: pre-line; }
+        .service-modal .modal-content { max-width: 450px; }
+        .service-modal .modal-header { flex-direction: column; text-align: center; gap: 10px; }
+        .price-info { background: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 25px; }
+        .price-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        .price-table th, .price-table td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        .price-table th { background-color: #f1f3f5; font-weight: 600; }
+        .fee-display { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 20px; border-radius: 15px; text-align: center; }
+        .fee-display h3 { font-size: 1rem; margin-bottom: 10px; opacity: 0.9; }
+        .fee-amount { font-size: 2rem; font-weight: 700; margin-bottom: 5px; }
+        .payment-option { flex: 1; min-width: 120px; border: 2px solid #e9ecef; border-radius: 10px; padding: 15px 10px; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .payment-option:hover { border-color: var(--primary); background-color: rgba(67, 97, 238, 0.05); }
+        .payment-option.active { border-color: var(--primary); background-color: rgba(67, 97, 238, 0.1); }
+        .payment-method-select { flex:1; min-width:140px; border:2px solid #ddd; border-radius:8px; padding:15px; text-align:center; cursor:pointer; }
+        .payment-method-select:hover, .payment-method-select.active { border-color: var(--primary); background-color: rgba(67,97,238,0.05); }
+        .whatsapp-btn { background: #25D366; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .whatsapp-btn:hover:not(:disabled) { background: #128C7E; transform: translateY(-2px); }
+        .whatsapp-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .modal-note { color: var(--gray); font-size: 0.85rem; margin-top: 15px; text-align: center; }
+        footer { background: var(--dark); color: white; padding: 70px 0 30px; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 50px; }
+        .footer-logo { font-size: 1.8rem; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .footer-logo-icon { width: 40px; height: 40px; background: var(--gradient); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; }
+        .footer-desc { color: #adb5bd; line-height: 1.7; margin-bottom: 20px; }
+        .social-links { display: flex; gap: 15px; }
+        .social-link { width: 40px; height: 40px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; transition: background 0.3s, transform 0.3s; }
+        .social-link:hover { background: var(--primary); transform: translateY(-3px); }
+        .footer-section h4 { font-size: 1.3rem; margin-bottom: 25px; color: white; position: relative; padding-bottom: 10px; }
+        .footer-section h4:after { content: ''; position: absolute; bottom: 0; left: 0; width: 40px; height: 3px; background: var(--gradient); border-radius: 3px; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: #adb5bd; text-decoration: none; transition: color 0.3s; cursor: pointer; }
+        .footer-links a:hover { color: white; }
+        .contact-info-footer { list-style: none; }
+        .contact-info-footer li { margin-bottom: 15px; display: flex; align-items: center; gap: 12px; }
+        .contact-info-footer i { color: var(--primary); font-size: 1.2rem; }
+        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); color: #adb5bd; font-size: 0.9rem; }
+        @media (max-width: 992px) {
+            .hero-container { flex-direction: column; text-align: center; }
+            .hero-content { max-width: 100%; }
+            .steps { flex-direction: column; gap: 40px; }
+            .steps:before { display: none; }
+            .step-number { width: 60px; height: 60px; font-size: 1.5rem; }
+        }
+        @media (max-width: 768px) {
+            nav { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: white; padding: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+            nav.active { display: block; }
+            nav ul { flex-direction: column; gap: 20px; }
+            .mobile-menu-btn { display: block; }
+            .header-actions .contact-btn span { display: none; }
+            .product-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="https://i.ibb.co.com/dwLJhy1H/file-00000000bce071fab85724add9068e8e.png" alt="Nefs Store Logo">
+                </div>
+                <div>
+                    <div class="logo-text">Nefs Digital Store</div>
+                    <div class="logo-subtext">Top-up Digital & Game Terpercaya</div>
+                </div>
+            </div>
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#" class="nav-home active">Beranda</a></li>
+                    <li><a href="#" class="nav-categories">Kategori</a></li>
+                    <li><a href="#" class="nav-payment">Pembayaran</a></li>
+                    <li><a href="#" class="nav-faq">FAQ</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="https://wa.me/6285374128738" target="_blank" class="contact-btn">
+                    <i class="fab fa-whatsapp"></i> <span>WhatsApp</span>
+                </a>
+                <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Nefs Digital Store</h1>
+                <p class="hero-subtitle">Layanan top-up digital & game premium dengan harga terbaik, proses cepat, dan dukungan 24/7.</p>
+                <div class="hero-stats">
+                    <div class="stat-item"><div class="stat-number">50K+</div><div class="stat-label">Pelanggan</div></div>
+                    <div class="stat-item"><div class="stat-number">99%</div><div class="stat-label">Kepuasan</div></div>
+                    <div class="stat-item"><div class="stat-number">24/7</div><div class="stat-label">Support</div></div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Digital Services">
+            </div>
+        </div>
+    </section>
+
+    <section class="search-section">
+        <div class="container search-container">
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" placeholder="Cari layanan atau game...">
+            </div>
+            <button class="search-btn"><i class="fas fa-search"></i> Cari</button>
+        </div>
+    </section>
+
+    <section class="categories" id="categoriesSection">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Pilih Kategori</h2>
+                <p class="section-subtitle">Temukan berbagai layanan digital dan top-up game dengan harga terbaik</p>
+            </div>
+            <div id="categoryGridContainer"></div>
+        </div>
+    </section>
+
+    <section class="products" id="productsSection">
+        <div class="container" id="productsContainer"></div>
+    </section>
+
+    <section class="payment-methods" id="paymentSection">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Metode Pembayaran</h2>
+                <p class="section-subtitle">Bayar dengan metode pembayaran yang aman dan terpercaya</p>
+            </div>
+            <div class="payment-grid">
+                <div class="payment-card"><i class="fas fa-qrcode payment-icon qris"></i><div class="payment-name">QRIS</div><div class="payment-desc">Scan QR Code</div></div>
+                <div class="payment-card"><i class="fas fa-wallet payment-icon dana"></i><div class="payment-name">DANA</div><div class="payment-desc">Transfer & QR</div></div>
+                <div class="payment-card"><i class="fas fa-money-bill-wave payment-icon gopay"></i><div class="payment-name">GoPay</div><div class="payment-desc">Transfer & QR</div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="midman-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Jasa Rekber (Rekening Bersama)</h2>
+                <p class="section-subtitle">Layanan perantara terpercaya untuk transaksi jual beli online</p>
+            </div>
+            <div class="midman-card">
+                <div class="midman-header"><h3><i class="fas fa-handshake"></i> Jasa Rekber</h3></div>
+                <div class="midman-body">
+                    <div class="midman-description">Ingin bertransaksi dengan aman? Gunakan jasa rekber kami! Dana akan ditahan sementara hingga barang diterima, lalu diteruskan ke penjual.</div>
+                    <button class="midman-action-btn" onclick="openServiceModal()"><i class="fas fa-calculator"></i> Hitung Fee & Order</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-to-order">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Cara Order</h2>
+                <p class="section-subtitle">Hanya 4 langkah mudah untuk mendapatkan layanan digital premium Anda</p>
+            </div>
+            <div class="steps">
+                <div class="step"><div class="step-number">1</div><div class="step-title">Pilih Produk</div><div class="step-desc">Pilih kategori dan produk yang ingin Anda beli</div></div>
+                <div class="step"><div class="step-number">2</div><div class="step-title">Checkout</div><div class="step-desc">Isi data yang diperlukan dan pilih metode pembayaran</div></div>
+                <div class="step"><div class="step-number">3</div><div class="step-title">Bayar</div><div class="step-desc">Lakukan pembayaran sesuai metode yang dipilih</div></div>
+                <div class="step"><div class="step-number">4</div><div class="step-title">Proses</div><div class="step-desc">Tunggu proses aktivasi oleh admin (maks 24 jam)</div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq" id="faqSection">
+        <div class="container">
+            <div class="section-header"><h2 class="section-title">FAQ</h2><p class="section-subtitle">Pertanyaan yang sering diajukan</p></div>
+            <div class="faq-container">
+                <div class="faq-item"><div class="faq-question">Berapa lama proses pengiriman?<span class="faq-toggle">+</span></div><div class="faq-answer">Bervariasi, untuk digital 5-30 menit, game bisa lebih cepat. Maksimal 24 jam.</div></div>
+                <div class="faq-item"><div class="faq-question">Apakah ada garansi?<span class="faq-toggle">+</span></div><div class="faq-answer">Ya, setiap produk memiliki ketentuan garansi masing-masing, dijelaskan di deskripsi.</div></div>
+                <div class="faq-item"><div class="faq-question">Bagaimana cara komplain?<span class="faq-toggle">+</span></div><div class="faq-answer">Hubungi admin via WhatsApp/Telegram dengan bukti pembayaran dan detail pesanan.</div></div>
+                <div class="faq-item"><div class="faq-question">Apakah bisa refund?<span class="faq-toggle">+</span></div><div class="faq-answer">Refund hanya jika pesanan belum diproses. Setelah diproses, tidak bisa refund kecuali kesalahan kami.</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modals -->
+    <div class="modal" id="infoModal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 id="infoModalTitle">Informasi</h3><button class="close-modal">&times;</button></div>
+            <div class="modal-body" id="infoModalBody"></div>
+        </div>
+    </div>
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <div class="modal-header"><h3>Checkout Item</h3><button class="close-modal">&times;</button></div>
+            <div class="modal-body" id="checkoutContent"></div>
+        </div>
+    </div>
+    <div class="modal explanation-modal" id="explanationModal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 id="explanationTitle">Penjelasan Paket</h3><button class="close-modal">&times;</button></div>
+            <div class="modal-body" id="explanationContent"></div>
+        </div>
+    </div>
+    <div class="modal service-modal" id="serviceModal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Jasa Rekber</h2><button class="close-modal">&times;</button></div>
+            <div class="modal-body">
+                <p>Hitung fee rekber di sini (belum diubah, tetap seperti asli).</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo"><div class="footer-logo-icon">ND</div>Nefs Digital Store</div>
+                    <p class="footer-desc">Platform top-up digital dan game terpercaya dengan harga termurah.</p>
+                    <div class="social-links">
+                        <a href="https://wa.me/6285374128738" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://t.me/NaufalTzye" class="social-link"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Layanan</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" data-group="Streaming" class="group-link">Streaming</a></li>
+                        <li><a href="#" data-group="Design Tool" class="group-link">Design Tools</a></li>
+                        <li><a href="#" data-group="Editing Tools" class="group-link">Editing Tools</a></li>
+                        <li><a href="#" data-group="AI Tools" class="group-link">AI Tools</a></li>
+                        <li><a href="#" data-group="Top Up Game" class="group-link">Top Up Game</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Kontak</h4>
+                    <ul class="contact-info-footer">
+                        <li><i class="fab fa-whatsapp"></i>+62 853-7412-8738</li>
+                        <li><i class="fab fa-telegram"></i>@NaufalTzye</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">&copy; 2025 Nefs Digital Store.</div>
+        </div>
+    </footer>
+
+    <script>
+        // ==================== DATA PRODUK LENGKAP (HARGA FINAL) ====================
+        const products = {
+            netflix: {
+                name: "Netflix", icon: "fas fa-tv", color: "#E50914", items: [
+                    { name: "Sharing 1 Hari [1P2U]", price: 5000, originalPrice: 5000, desc: "Akun dari seller, Login via OTP, Maks 1 device, Full garansi", featured: false, stock: true },
+                    { name: "Sharing 2 Hari [1P2U]", price: 8500, originalPrice: 8500, desc: "Akun dari seller, Login via OTP, Maks 1 device, Full garansi", featured: false, stock: true },
+                    { name: "Sharing 3 Hari [1P2U]", price: 9500, originalPrice: 9500, desc: "Akun dari seller, Login via OTP, Maks 1 device, Full garansi", featured: false, stock: true },
+                    { name: "Sharing 7 Hari [1P2U]", price: 12000, originalPrice: 12000, desc: "Akun dari seller, Login via OTP, Maks 1 device, Full garansi", featured: true, stock: true },
+                    { name: "Sharing 1 Bulan [1P1U]", price: 31000, originalPrice: 31000, desc: "Akun dari seller, Login via OTP, Maks 1 device, All device, Full garansi", featured: true, stock: true },
+                    { name: "Sharing 1 Bulan [1P2U]", price: 19000, originalPrice: 19000, desc: "Akun dari seller, Login via OTP, Maks 1 device, All device, Full garansi", featured: true, stock: true },
+                    { name: "Semi Private 7 Hari", price: 16000, originalPrice: 16000, desc: "Akun dari seller, Login via OTP, Maks 2 device, All device, Full garansi", featured: false, stock: true },
+                    { name: "Semi Private 1 Bulan", price: 33000, originalPrice: 33000, desc: "Akun dari seller, Login via OTP, Maks 2 device, All device, Full garansi", featured: false, stock: true },
+                    { name: "Private 1 Bulan", price: 104000, originalPrice: 104000, desc: "Akun dari buyer, Kirim email saja, Plan Premium 4K, No garansi, Sistem PO", featured: false, needsEmail: true, stock: true }
+                ]
+            },
+            spotify: {
+                name: "Spotify", icon: "fab fa-spotify", color: "#1DB954", items: [
+                    { name: "Indplan 1 Bulan (Full Garansi)", price: 21000, originalPrice: 21000, desc: "All device, Full garansi, Maks 1 device", featured: true, stock: true },
+                    { name: "Indplan 3 Bulan (No Garansi)", price: 14000, originalPrice: 14000, desc: "Support Android, tidak disarankan IOS, No garansi", featured: false, stock: true },
+                    { name: "Indplan 3 Bulan (Garansi 7 Hari)", price: 16000, originalPrice: 16000, desc: "Support Android, tidak disarankan IOS, Garansi 7 hari", featured: false, stock: true },
+                    { name: "Famplan 1 Bulan (Garansi 25 Hari)", price: 20000, originalPrice: 20000, desc: "Support Android & IOS, Garansi 25 hari, Maks 1 device", featured: true, stock: true }
+                ]
+            },
+            youtube: {
+                name: "YouTube Premium", icon: "fab fa-youtube", color: "#FF0000", items: [
+                    { name: "Famplan 1 Bulan", price: 4500, originalPrice: 4500, desc: "ACC buyer, Kirim email saja, Full garansi", featured: true, needsEmail: true, stock: true },
+                    { name: "Famhead 1 Bulan (ACC seller)", price: 11000, originalPrice: 11000, desc: "ACC seller, No garansi", featured: false, stock: true },
+                    { name: "Indiplan 1 Bulan (ACC seller)", price: 12000, originalPrice: 12000, desc: "ACC seller, Garansi selama tidak ganti sandi", featured: false, stock: true },
+                    { name: "Jaspay Famhead 1 Bulan", price: 5000, originalPrice: 5000, desc: "ACC buyer, Kirim email & password, Wajib email fresh", featured: true, needsEmail: true, stock: true },
+                    { name: "Jaspay Indiplan 1 Bulan", price: 6500, originalPrice: 6500, desc: "ACC buyer, Kirim email & password, Wajib email fresh", featured: true, needsEmail: true, stock: true }
+                ]
+            },
+            alight: {
+                name: "Alight Motion", icon: "fas fa-video", color: "#8A2BE2", items: [
+                    { name: "Sharing 1 Tahun (Acc Seller)", price: 2000, originalPrice: 2000, desc: "Akun dari seller, Support Android/iOS, Garansi 6 bulan", stock: true },
+                    { name: "Private 1 Tahun (Acc Buyer)", price: 4500, originalPrice: 4500, desc: "Pakai email sendiri, Maks 10 device, Garansi 6 bulan", needsEmail: true, stock: true },
+                    { name: "Private 1 Tahun (Acc Seller)", price: 3000, originalPrice: 3000, desc: "Akun dari seller, Maks 10 device, Garansi 6 bulan", stock: true }
+                ]
+            },
+            capcut: {
+                name: "CapCut Pro", icon: "fas fa-cut", color: "#00A8FF", items: [
+                    { name: "Sharing 1 Bulan (Gar7d)", price: 5000, originalPrice: 5000, desc: "Akun seller, Support all device, Garansi 7 hari", stock: true },
+                    { name: "Private 7 Hari (Gar3d)", price: 3000, originalPrice: 6000, desc: "Akun seller, Private, Maks 2 device, Garansi 3 hari", stock: true },
+                    { name: "Private 35 Hari (Full Garansi)", price: 7500, originalPrice: 7000, desc: "Akun berbasis Tim Private, Maks 2 device, Full garansi", stock: true },
+                    { name: "Private 42 Hari (Full Garansi)", price: 9000, originalPrice: 11000, desc: "Akun berbasis Tim Private, Maks 2 device, Full garansi", stock: true }
+                ]
+            },
+            canva: {
+                name: "Canva Pro", icon: "fas fa-palette", color: "#00C4CC", items: [
+                    { name: "Paket Member 1 Bulan", price: 2000, originalPrice: 2000, desc: "Support all device, Via link invite, Full garansi BF", stock: true },
+                    { name: "Paket Designer 1 Bulan", price: 3000, originalPrice: 3000, desc: "Support all device, Via link invite, Full garansi BF", stock: true },
+                    { name: "Paket Edu 1 Tahun", price: 5000, originalPrice: 5000, desc: "Support all device, Via link invite, Garansi 6 bulan", stock: true },
+                    { name: "Paket Edu Lifetime", price: 7000, originalPrice: 6500, desc: "Support all device, Via link invite, Garansi 6 bulan", stock: true },
+                    { name: "Paket Head Owner 1 Bulan", price: 7500, originalPrice: 7500, desc: "Akun seller, Support all device, No garansi", stock: true },
+                    { name: "Jaspay Head 1 Bulan", price: 5000, originalPrice: 5000, desc: "Email wajib fresh/masih baru, Support all device", needsEmail: true, stock: true }
+                ]
+            },
+            wink: {
+                name: "Wink", icon: "fas fa-star", color: "#FF69B4", items: [
+                    { name: "Private 7 Hari (ACC buyer)", price: 6500, originalPrice: 6500, desc: "ACC buyer, Kirim email + password ke seller (no verifikasi), Garansi 5 hari, Only Android", needsEmail: true, stock: true },
+                    { name: "Private 7 Hari (ACC seller)", price: 9000, originalPrice: 9000, desc: "ACC seller, Garansi 5 hari, Only Android", stock: true }
+                ]
+            },
+            bstation: {
+                name: "Bstation", icon: "fas fa-play-circle", color: "#00A1D6", items: [
+                    { name: "Sharing 1 Bulan", price: 8000, originalPrice: 9000, desc: "Akun sharing, Garansi sesuai ketentuan", stock: true },
+                    { name: "Sharing 1 Tahun", price: 12000, originalPrice: 12000, desc: "Akun sharing, Garansi sesuai ketentuan", stock: true },
+                    { name: "Private 1 Bulan", price: 34000, originalPrice: 34000, desc: "Akun dari seller, Private maks login 2 device", stock: true }
+                ]
+            },
+            loklok: {
+                name: "Loklok", icon: "fas fa-film", color: "#FF4500", items: [
+                    { name: "Sharing 1 Bulan Basic", price: 20000, originalPrice: 19000, desc: "Paket basic sharing, Garansi BF / premium hilang", stock: true },
+                    { name: "Sharing 1 Bulan Standar", price: 21500, originalPrice: 21000, desc: "Paket standar sharing, Garansi BF / premium hilang", stock: true }
+                ]
+            },
+            picsart: {
+                name: "Picsart", icon: "fas fa-paint-brush", color: "#FF69B4", items: [
+                    { name: "Sharing 1 Bulan", price: 5000, originalPrice: 7000, desc: "Akun sharing, Support iOS/Android, No komplain limit", stock: true },
+                    { name: "Private 1 Bulan", price: 7000, originalPrice: 11500, desc: "Private, Maks login 10 device, Include fitur AI", stock: true },
+                    { name: "Private 1 Bulan Bulk (10 Akun)", price: 23500, originalPrice: 23500, desc: "Paket 10 akun private, Include fitur AI", stock: true }
+                ]
+            },
+            wetv: {
+                name: "WeTV", icon: "fas fa-tv", color: "#1E90FF", items: [
+                    { name: "Sharing 1 Bulan (6U)", price: 10000, originalPrice: 10000, desc: "Sharing 6 user, Sebut device setelah order, Garansi BF", stock: true },
+                    { name: "Sharing 1 Bulan (5U)", price: 12000, originalPrice: 12000, desc: "Sharing 5 user, Sebut device setelah order, Garansi BF", stock: true },
+                    { name: "Sharing 1 Bulan (3U)", price: 14500, originalPrice: 14500, desc: "Sharing 3 user, Sebut device setelah order, Garansi BF", stock: true },
+                    { name: "Private 1 Bulan", price: 32000, originalPrice: 32000, desc: "Private, Sebut device setelah order, Garansi BF", stock: true }
+                ]
+            },
+            chatgpt: {
+                name: "ChatGPT AI", icon: "fas fa-robot", color: "#10a37f", items: [
+                    { name: "Sharing 1 Bulan Plus", price: 6500, originalPrice: 6500, desc: "Akun sharing, Garansi 22 hari, no komplain limit", stock: true },
+                    { name: "Private 1 Bulan Plus (No Garansi)", price: 9000, originalPrice: 9000, desc: "Akun dari seller, No garansi", stock: true },
+                    { name: "Private 1 Bulan Bisnis/Team (Via Invite)", price: 14500, originalPrice: 14500, desc: "Via invite, pake akun sendiri, cukup kirim email saja, Garansi 20 hari", needsEmail: true, stock: true },
+                    { name: "Private 1 Bulan Plus (Full Garansi)", price: 13000, originalPrice: 13000, desc: "Akun dari seller, Full garansi", stock: true },
+                    { name: "Private 1 Bulan Head Bisnis/Team", price: 31000, originalPrice: 31000, desc: "Akun dari seller, Head bisa invite 4-5 email, Garansi 20 hari", stock: true }
+                ]
+            },
+            gemini: {
+                name: "Gemini Veo 3.1", icon: "fas fa-robot", color: "#8A2BE2", items: [
+                    { name: "Private 1 Bulan (ACC buyer)", price: 3000, originalPrice: 3000, desc: "Akun dari buyer, Via invite, Cukup kirim email saja, Garansi 25 hari, Akses AI Gemini Veo 3.1 + Storage 5TB", needsEmail: true, stock: true },
+                    { name: "Jaspay 1 Bulan Head", price: 11000, originalPrice: 11000, desc: "Kirim email+password ke seller, Email wajib fresh/masih baru, Garansi 25 hari", needsEmail: true, stock: true }
+                ]
+            },
+            // ========== MOBILE LEGEND (HARGA FINAL) ==========
+            mobilelegend: {
+                name: "Mobile Legends",
+                icon: "fas fa-gamepad",
+                color: "#FFCC00",
+                items: [
+                    { name: "55 Diamonds (50+5 Bonus)", price: 14500, originalPrice: 13279, desc: "2x Bonus First Top Up. Kirim User ID + Server", needsGameId: true, needsServer: true, stock: true },
+                    { name: "86 Diamonds (78+8 Bonus)", price: 22500, originalPrice: 20940, desc: "Kirim User ID + Server", needsGameId: true, needsServer: true, stock: true },
+                    { name: "1x Weekly Diamond Pass", price: 27000, originalPrice: 25876, desc: "Event Topup 100. Kirim User ID + Server", needsGameId: true, needsServer: true, stock: true },
+                    { name: "165 Diamonds (150+15 Bonus)", price: 42000, originalPrice: 39802, desc: "2x Bonus First Top Up. Kirim User ID + Server", needsGameId: true, needsServer: true, stock: true },
+                    { name: "172 Diamonds (156+16 Bonus)", price: 44500, originalPrice: 41538, desc: "Kirim User ID + Server", needsGameId: true, needsServer: true, stock: true },
+                    { name: "257 Diamonds (234+23 Bonus)", price: 63000, originalPrice: 60163, desc: "Kirim User ID + Server", needsGameId: true, needsServer: true, stock: true },
+                    { name: "275 Diamonds (250+25 Bonus)", price: 67500, originalPrice: 63840, desc: "2x Bonus First Top Up. Kirim User ID + Server", needsGameId: true, needsServer: true, stock: true },
+                    { name: "565 Diamonds (500+65 Bonus)", price: 139000, originalPrice: 131083, desc: "2x Bonus First Top Up. Kirim User ID + Server", needsGameId: true, needsServer: true, stock: true },
+                    { name: "Twilight Pass", price: 145000, originalPrice: 137042, desc: "Kirim User ID + Server", needsGameId: true, needsServer: true, stock: true },
+                    { name: "706 Diamonds (625+81 Bonus)", price: 173000, originalPrice: 163428, desc: "Kirim User ID + Server", needsGameId: true, needsServer: true, stock: true }
+                ]
+            },
+            freefire: {
+                name: "Free Fire Biasa",
+                icon: "fas fa-fire",
+                color: "#FF6600",
+                items: [
+                    { name: "5 Diamonds", price: 1000, originalPrice: 849, desc: "Kirim User ID", needsGameId: true, stock: true },
+                    { name: "12 Diamonds", price: 2000, originalPrice: 1852, desc: "Kirim User ID", needsGameId: true, stock: true },
+                    { name: "50 Diamonds", price: 7500, originalPrice: 6630, desc: "Kirim User ID", needsGameId: true, stock: true },
+                    { name: "70 Diamonds", price: 10000, originalPrice: 9175, desc: "Kirim User ID", needsGameId: true, stock: true },
+                    { name: "100 Diamonds", price: 14800, originalPrice: 13511, desc: "Kirim User ID", needsGameId: true, stock: true },
+                    { name: "140 Diamonds", price: 19500, originalPrice: 18206, desc: "Kirim User ID", needsGameId: true, stock: true },
+                    { name: "355 Diamonds", price: 48000, originalPrice: 44804, desc: "Kirim User ID", needsGameId: true, stock: true },
+                    { name: "720 Diamonds", price: 98000, originalPrice: 92439, desc: "Kirim User ID", needsGameId: true, stock: true },
+                    { name: "1450 Diamonds", price: 198000, originalPrice: 186577, desc: "Kirim User ID", needsGameId: true, stock: true }
+                ]
+            },
+            freefiremax: {
+                name: "Free Fire Max",
+                icon: "fas fa-fire-alt",
+                color: "#FF4500",
+                items: [
+                    { name: "5 Diamonds", price: 1000, originalPrice: 924, desc: "Top-up FF Max. Kirim User ID", needsGameId: true, stock: true },
+                    { name: "12 Diamonds", price: 2000, originalPrice: 1890, desc: "Kirim User ID", needsGameId: true, stock: true },
+                    { name: "70 Diamonds", price: 10000, originalPrice: 9186, desc: "Kirim User ID", needsGameId: true, stock: true },
+                    { name: "100 Diamonds", price: 16000, originalPrice: 14778, desc: "Kirim User ID", needsGameId: true, stock: true },
+                    { name: "140 Diamonds", price: 19500, originalPrice: 18372, desc: "Kirim User ID", needsGameId: true, stock: true },
+                    { name: "355 Diamonds", price: 49000, originalPrice: 46183, desc: "Kirim User ID", needsGameId: true, stock: true },
+                    { name: "720 Diamonds", price: 98000, originalPrice: 92365, desc: "Kirim User ID", needsGameId: true, stock: true },
+                    { name: "1000 Diamonds", price: 137000, originalPrice: 129311, desc: "Kirim User ID", needsGameId: true, stock: true }
+                ]
+            }
+        };
+
+        const categoryImages = {
+            netflix: "https://i.ibb.co.com/MkZ7Gyh4/12d04587f205ba8accecb35de93f790b.jpg",
+            spotify: "https://i.ibb.co.com/VWG7mCF1/2e5b50f51f2dca3f37730ce507f20d9a.jpg",
+            youtube: "https://i.ibb.co.com/nsTnFV10/9ffc17d8234d69587aea04dff27e9abc.jpg",
+            alight: "https://i.ibb.co.com/yFR1wwqp/ad8b2cf5e7b44514ab71b9fd9666ec16.jpg",
+            capcut: "https://i.ibb.co.com/SDxB4LpX/c410c7c8c7bb31013500d214a7da8a8b.jpg",
+            canva: "https://i.ibb.co.com/5hgZhdJb/7805aae9baa43978009e8b0cfd3a18f7.jpg",
+            wink: "https://i.ibb.co.com/XrKVHtMt/e52547ffd8d39f876386429331e7da38.jpg",
+            bstation: "https://i.ibb.co.com/V1cQmm3/4c1f43acb75cc789254b7ad8327e663a.jpg",
+            loklok: "https://i.ibb.co.com/23QS3sMd/1771483780666.png",
+            picsart: "https://i.ibb.co.com/9mg0mjwx/6fae7e754d591d398dbb724632becee4.jpg",
+            wetv: "https://i.ibb.co.com/nV8T8Lb/83437dbd27e2c4a6bd2157814c92be3c.jpg",
+            chatgpt: "https://i.ibb.co.com/JwTfBSz7/5a6b78b7c03102a36f8d0952190b05c6.jpg",
+            gemini: "https://i.ibb.co.com/vxYT0Tdp/gemini-icon-logo-brandlogos-net-aacx5.png",
+            mobilelegend: "",
+            freefire: "",
+            freefiremax: ""
+        };
+
+        const categoryGroups = {
+            "Streaming": ["netflix", "youtube", "bstation", "loklok", "wetv"],
+            "Design Tool": ["canva", "picsart"],
+            "Editing Tools": ["alight", "capcut", "wink"],
+            "AI Tools": ["chatgpt", "gemini"],
+            "Top Up Game": ["mobilelegend", "freefire", "freefiremax"]
+        };
+
+        // ⚠️ GANTI DENGAN URL BACKEND RAILWAY LO
+        const API_BASE_URL = 'https://nefssture-production.up.railway.app/api';
+
+        let currentCategory = 'netflix';
+        let currentOrder = null;
+
+        function renderCategories() {
+            const container = document.getElementById('categoryGridContainer');
+            container.innerHTML = '';
+            for (let groupName in categoryGroups) {
+                const groupKeys = categoryGroups[groupName];
+                const groupDiv = document.createElement('div'); groupDiv.className = 'category-group'; groupDiv.id = `group-${groupName.replace(/\s/g, '')}`;
+                const title = document.createElement('h3'); title.className = 'group-title'; title.textContent = groupName;
+                groupDiv.appendChild(title);
+                const grid = document.createElement('div'); grid.className = 'category-grid';
+                groupKeys.forEach(key => {
+                    if (!products[key]) return;
+                    let p = products[key];
+                    let card = document.createElement('div');
+                    card.className = 'category-card' + (key === currentCategory ? ' active' : '');
+                    card.dataset.category = key;
+                    let iconHtml = categoryImages[key] ? `<img src="${categoryImages[key]}" alt="${p.name}">` : `<i class="${p.icon}" style="color:${p.color}; font-size:2.5rem;"></i>`;
+                    card.innerHTML = `<div class="category-icon" style="background:${categoryImages[key] ? '#fff' : `linear-gradient(135deg,${hexToRgba(p.color,0.1)},${hexToRgba(p.color,0.05)})`}">${iconHtml}</div><div class="category-name">${p.name}</div><div class="category-count">${p.items.length} Paket</div>`;
+                    card.addEventListener('click', () => showCategory(key));
+                    grid.appendChild(card);
+                });
+                groupDiv.appendChild(grid);
+                container.appendChild(groupDiv);
+            }
+        }
+
+        function renderAllProducts() {
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = '';
+            for (let key in products) {
+                let p = products[key];
+                let section = document.createElement('div'); section.className = 'products-section'; section.id = `product-${key}`;
+                let titleHtml = `<div class="product-title">${categoryImages[key] ? `<img src="${categoryImages[key]}" alt="${p.name}">` : `<i class="${p.icon}" style="color:${p.color}; font-size:2rem;"></i>`} ${p.name}</div>`;
+                let itemsHTML = '';
+                p.items.forEach(item => {
+                    let btnAttrs = `data-product="${key}" data-item="${item.name}" data-price="${item.price}"`;
+                    if (item.needsEmail) btnAttrs += ` data-needs-email="true"`;
+                    if (item.needsGameId) btnAttrs += ` data-needs-game-id="true"`;
+                    if (item.needsServer) btnAttrs += ` data-needs-server="true"`;
+                    let priceDisplay = `Rp ${item.price.toLocaleString('id-ID')}`;
+                    if (item.originalPrice && item.originalPrice !== item.price) {
+                        priceDisplay += ` <span class="original-price">Rp ${item.originalPrice.toLocaleString('id-ID')}</span>`;
+                    }
+                    itemsHTML += `<div class="product-card ${item.featured ? 'featured' : ''}">
+                        ${item.featured ? '<div class="featured-badge"><i class="fas fa-crown"></i> Featured</div>' : ''}
+                        <div class="product-header-card" style="background:linear-gradient(135deg,${p.color},${adjustColor(p.color, -30)})"><h3>${p.name}</h3></div>
+                        <div class="product-body">
+                            <div class="product-item">
+                                <div class="product-details"><div class="product-name">${item.name}</div><div class="product-desc">${item.desc}</div></div>
+                                <div class="product-price">${priceDisplay}</div>
+                            </div>
+                            <button class="buy-btn" ${btnAttrs}><i class="fas fa-shopping-cart"></i> Beli Sekarang</button>
+                        </div>
+                    </div>`;
+                });
+                section.innerHTML = `<div class="product-header">${titleHtml}</div><div class="product-grid">${itemsHTML}</div>`;
+                container.appendChild(section);
+            }
+        }
+
+        function showCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.category-card').forEach(c => c.classList.remove('active'));
+            let activeCat = document.querySelector(`.category-card[data-category="${cat}"]`);
+            if (activeCat) activeCat.classList.add('active');
+            document.querySelectorAll('.products-section').forEach(s => s.classList.remove('active'));
+            let target = document.getElementById(`product-${cat}`);
+            if (target) target.classList.add('active');
+            document.getElementById('productsSection').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('mainNav').classList.remove('active');
+        }
+
+        function showGroup(groupName) {
+            const groupId = `group-${groupName.replace(/\s/g, '')}`;
+            const groupElement = document.getElementById(groupId);
+            if (groupElement) {
+                groupElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                groupElement.classList.add('highlight-group');
+                setTimeout(() => groupElement.classList.remove('highlight-group'), 1500);
+            }
+            document.getElementById('mainNav').classList.remove('active');
+        }
+
+        function openCheckoutModal(prod, item, price, needsEmail = false, needsGameId = false, needsServer = false) {
+            let priceNum = parseInt(price);
+            currentOrder = { product: prod, item, price: priceNum, needsEmail, needsGameId, needsServer };
+            let p = products[prod];
+            let html = `<div><label>Item:</label><input type="text" value="${p.name} - ${item}" readonly style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;background:#f8f9fa;"></div>
+                        <div><label>Harga:</label><input type="text" value="Rp ${priceNum.toLocaleString('id-ID')}" readonly style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;background:#f8f9fa;font-weight:700;color:var(--primary);"></div>`;
+            if (needsEmail) html += `<div><label>Email (untuk akun private):</label><input type="email" id="userEmail" placeholder="contoh@gmail.com" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;"></div>`;
+            if (needsGameId) html += `<div><label>User ID</label><input type="text" id="gameUserId" placeholder="Masukkan User ID" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;"></div>`;
+            if (needsServer) html += `<div><label>Server (khusus Mobile Legends)</label><input type="text" id="gameServer" placeholder="Contoh: 1234" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;"></div>`;
+            html += `<div><label>Metode Pembayaran:</label><div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;">
+                        <div class="payment-method-select" data-method="QRIS"><i class="fas fa-qrcode" style="font-size:1.8rem;display:block;color:#00a86b;"></i>QRIS</div>
+                        <div class="payment-method-select" data-method="DANA"><i class="fas fa-wallet" style="font-size:1.8rem;display:block;color:#0088cc;"></i>DANA</div>
+                        <div class="payment-method-select" data-method="GOPAY"><i class="fas fa-money-bill-wave" style="font-size:1.8rem;display:block;color:#00aa13;"></i>GoPay</div>
+                     </div></div>
+                     <div style="background:#f8f9fa;border-radius:10px;padding:20px;margin-top:25px;">
+                        <h4>Ringkasan Pesanan:</h4>
+                        <div><span>Item:</span><span>${p.name} - ${item}</span></div>
+                        <div><span>Harga:</span><span>Rp ${priceNum.toLocaleString('id-ID')}</span></div>
+                        <div><span>Metode:</span><span id="summaryMethod">-</span></div>
+                        <hr><div><span>Total:</span><span id="summaryTotal" style="color:var(--primary);">Rp ${priceNum.toLocaleString('id-ID')}</span></div>
+                     </div>
+                     <button id="confirmOrder" style="background:var(--gradient);color:white;border:none;width:100%;padding:15px;border-radius:10px;margin-top:20px;font-weight:600;">Konfirmasi & Kirim Pesan</button>`;
+            document.getElementById('checkoutContent').innerHTML = html;
+            document.querySelectorAll('.payment-method-select').forEach(el => {
+                el.addEventListener('click', function() {
+                    document.querySelectorAll('.payment-method-select').forEach(x => { x.style.borderColor = '#ddd'; x.style.backgroundColor = 'white'; });
+                    this.style.borderColor = 'var(--primary)'; this.style.backgroundColor = 'rgba(67,97,238,0.05)';
+                    document.getElementById('summaryMethod').innerText = this.dataset.method;
+                });
+            });
+            document.getElementById('confirmOrder').addEventListener('click', confirmOrder);
+            document.getElementById('checkoutModal').style.display = 'flex';
+        }
+
+        function confirmOrder() {
+            if (!currentOrder) return;
+            let userEmail = document.getElementById('userEmail')?.value || '';
+            let gameUserId = document.getElementById('gameUserId')?.value || '';
+            let gameServer = document.getElementById('gameServer')?.value || '';
+            let method = document.getElementById('summaryMethod')?.innerText || '';
+
+            if (currentOrder.needsGameId && !gameUserId) { alert('Masukkan User ID!'); return; }
+            if (currentOrder.needsServer && !gameServer) { alert('Masukkan Server!'); return; }
+
+            let target = '';
+            if (currentOrder.needsGameId) target = gameUserId + (currentOrder.needsServer ? ` (${gameServer})` : '');
+            else if (currentOrder.needsEmail) target = userEmail;
+
+            fetch(`${API_BASE_URL}/order`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    productName: products[currentOrder.product].name,
+                    itemName: currentOrder.item,
+                    price: currentOrder.price,
+                    target: target,
+                    paymentMethod: method
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert(`✅ Order berhasil!\nID Transaksi: ${data.data.transactionId}`);
+                } else {
+                    alert('❌ Gagal: ' + data.message);
+                }
+                closeAllModals();
+            })
+            .catch(err => alert('❌ Jaringan error: ' + err.message));
+        }
+
+        function closeAllModals() {
+            document.getElementById('checkoutModal').style.display = 'none';
+            document.getElementById('explanationModal').style.display = 'none';
+            document.getElementById('infoModal').style.display = 'none';
+            document.getElementById('serviceModal').style.display = 'none';
+        }
+
+        function hexToRgba(hex, a) { let r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16); return `rgba(${r},${g},${b},${a})`; }
+        function adjustColor(c, a) { return '#' + c.replace(/^#/, '').replace(/../g, cc => ('0' + Math.min(255, Math.max(0, parseInt(cc,16)+a)).toString(16)).substr(-2)); }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCategories();
+            renderAllProducts();
+            showCategory('netflix');
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('buy-btn') || e.target.closest('.buy-btn')) {
+                    let btn = e.target.closest('.buy-btn');
+                    let needsEmail = btn.getAttribute('data-needs-email') === 'true';
+                    let needsGameId = btn.getAttribute('data-needs-game-id') === 'true';
+                    let needsServer = btn.getAttribute('data-needs-server') === 'true';
+                    openCheckoutModal(btn.dataset.product, btn.dataset.item, btn.dataset.price, needsEmail, needsGameId, needsServer);
+                }
+            });
+            document.querySelectorAll('.close-modal').forEach(btn => btn.addEventListener('click', closeAllModals));
+            document.getElementById('checkoutModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeAllModals(); });
+            document.getElementById('infoModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeAllModals(); });
+            document.getElementById('mobileMenuBtn').addEventListener('click', () => document.getElementById('mainNav').classList.toggle('active'));
+            document.querySelectorAll('.group-link').forEach(link => {
+                link.addEventListener('click', function(e) { e.preventDefault(); showGroup(this.dataset.group); });
+            });
+            document.querySelectorAll('.faq-question').forEach(q => q.addEventListener('click', function() {
+                this.nextElementSibling.classList.toggle('active');
+                this.querySelector('.faq-toggle')?.classList.toggle('active');
+            }));
+        });
+    </script>
+</body>
+</html>
