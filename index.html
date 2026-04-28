@@ -700,41 +700,41 @@
         }
 
         function confirmOrder() {
-            if (!currentOrder) return;
-            let userEmail = document.getElementById('userEmail')?.value || '';
-            let gameUserId = document.getElementById('gameUserId')?.value || '';
-            let gameServer = document.getElementById('gameServer')?.value || '';
-            let method = document.getElementById('summaryMethod')?.innerText || '';
+    if (!currentOrder) return;
+    let userEmail = document.getElementById('userEmail')?.value || '';
+    let gameUserId = document.getElementById('gameUserId')?.value || '';
+    let gameServer = document.getElementById('gameServer')?.value || '';
+    let method = document.getElementById('summaryMethod')?.innerText || '';
 
-            if (currentOrder.needsGameId && !gameUserId) { alert('Masukkan User ID!'); return; }
-            if (currentOrder.needsServer && !gameServer) { alert('Masukkan Server!'); return; }
+    if (currentOrder.needsGameId && !gameUserId) { alert('Masukkan User ID!'); return; }
+    if (currentOrder.needsServer && !gameServer) { alert('Masukkan Server!'); return; }
 
-            let target = '';
-            if (currentOrder.needsGameId) target = gameUserId + (currentOrder.needsServer ? ` (${gameServer})` : '');
-            else if (currentOrder.needsEmail) target = userEmail;
+    let target = '';
+    if (currentOrder.needsGameId) target = gameUserId + (currentOrder.needsServer ? ` (${gameServer})` : '');
+    else if (currentOrder.needsEmail) target = userEmail;
 
-            fetch(`${API_BASE_URL}/order`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    productName: products[currentOrder.product].name,
-                    itemName: currentOrder.item,
-                    price: currentOrder.price,
-                    target: target,
-                    paymentMethod: method
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    alert(`✅ Order berhasil!\nID Transaksi: ${data.data.transactionId}`);
-                } else {
-                    alert('❌ Gagal: ' + data.message);
-                }
-                closeAllModals();
-            })
-            .catch(err => alert('❌ Jaringan error: ' + err.message));
+    fetch(`${API_BASE_URL}/order`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            productName: products[currentOrder.product].name,
+            itemName: currentOrder.item,
+            price: currentOrder.price,
+            target: target,
+            paymentMethod: method
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert(`✅ Order berhasil!\nID Transaksi: ${data.data.transactionId}`);
+        } else {
+            alert('❌ Gagal: ' + data.message);
         }
+        closeAllModals();
+    })
+    .catch(err => alert('❌ Jaringan error: ' + err.message));
+}
 
         function closeAllModals() {
             document.getElementById('checkoutModal').style.display = 'none';
