@@ -710,7 +710,7 @@
     if (currentOrder.needsServer && !gameServer) { alert('Masukkan Server!'); return; }
 
     let target = '';
-    if (currentOrder.needsGameId) target = gameUserId + (currentOrder.needsServer ? ` (${gameServer})` : '');
+    if (currentOrder.needsGameId) target = gameUserId + (currentOrder.needsServer ? `(${gameServer})` : '');
     else if (currentOrder.needsEmail) target = userEmail;
 
     fetch(`${API_BASE_URL}/order`, {
